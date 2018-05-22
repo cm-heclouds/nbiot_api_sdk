@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zhuocongbin
@@ -16,7 +17,10 @@ import java.io.IOException;
 public final class HttpSendCenter {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpSendCenter.class);
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final OkHttpClient httpClient = new OkHttpClient.Builder().build();
+    private static final OkHttpClient httpClient = new OkHttpClient.Builder()
+                                                    .connectTimeout(40, TimeUnit.SECONDS)
+                                                    .readTimeout(40, TimeUnit.SECONDS)
+                                                    .build();
     //
     public static JSONObject get(String apiKey, String url) {
         Request request = new Request.Builder()
